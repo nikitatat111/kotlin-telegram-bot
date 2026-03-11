@@ -72,7 +72,7 @@ class OpenAiService(
       header(HttpHeaders.Authorization, "Bearer $apiKey")
       setBody(
         mapOf(
-          "model" to "gpt-5.4",
+          "model" to "gpt-4o-mini",
           "input" to input
         )
       )
