@@ -25,7 +25,6 @@ fun Application.module() {
   }
 
   val tgToken = env("TELEGRAM_TOKEN")
-  val webhookSecret = env("TELEGRAM_WEBHOOK_SECRET")
   val telegramApi = env("TELEGRAM_API", "https://api.telegram.org")
 
   val openAiApiKey = env("OPENAI_API_KEY")
@@ -65,12 +64,6 @@ fun Application.module() {
     }
 
     post("/tg-webhook") {
-      val secret = call.request.headers["X-Telegram-Bot-Api-Secret-Token"]
-      if (secret != webhookSecret) {
-        call.respond(io.ktor.http.HttpStatusCode.Forbidden)
-        return@post
-      }
-
       val update = call.receive<Update>()
 
       update.callback_query?.let { cq ->
