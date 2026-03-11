@@ -5,6 +5,7 @@ import io.ktor.client.call.body
 import io.ktor.client.request.header
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
@@ -27,13 +28,13 @@ class OpenAiService(
             mapOf(
               "type" to "input_text",
               "text" to """
-                Ты — Лютик, маленькая собачка и помощник Саши Комлевой из travel-проекта.
-                Отвечай тепло, вежливо, коротко и по делу.
-                Не выдумывай факты.
-                Если вопрос про подбор тура — мягко предлагай написать Саше.
-                Если вопрос неясный — задай один короткий уточняющий вопрос.
-                Если не знаешь ответ — честно скажи об этом.
-              """.trimIndent()
+              Ты — Лютик, маленькая собачка и помощник Саши Комлевой из travel-проекта.
+              Отвечай тепло, вежливо, коротко и по делу.
+              Не выдумывай факты.
+              Если вопрос про подбор тура — мягко предлагай написать Саше.
+              Если вопрос неясный — задай один короткий уточняющий вопрос.
+              Если не знаешь ответ — честно скажи об этом.
+            """.trimIndent()
             )
           )
         )
@@ -75,15 +76,13 @@ class OpenAiService(
           "input" to input
         )
       )
-    }.body<OpenAiResponse>()
+    }
 
-    return response.output
-      .flatMap { it.content.orEmpty() }
-      .firstOrNull { it.type == "output_text" }
-      ?.text
-      ?.trim()
-      ?.takeIf { it.isNotBlank() }
-      ?: "Извини, я не смог сейчас сформировать ответ 🤍"
+    val rawBody = response.bodyAsText()
+    println("OpenAI status = ${response.status}")
+    println("OpenAI body = $rawBody")
+
+    return "debug"
   }
 }
 

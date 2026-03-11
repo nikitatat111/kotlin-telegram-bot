@@ -197,6 +197,7 @@ fun Application.module() {
           userText = text
         )
       }.getOrElse { e ->
+        println("generateReply failed: ${e::class.qualifiedName}: ${e.message}")
         e.printStackTrace()
         "Сейчас я немного задумался 😅 Попробуй написать ещё раз или сразу нажми сюда: $pickTourUrl"
       }
