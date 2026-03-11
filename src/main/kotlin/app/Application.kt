@@ -196,7 +196,8 @@ fun Application.module() {
           userId = userId,
           userText = text
         )
-      }.getOrElse {
+      }.getOrElse { e ->
+        e.printStackTrace()
         "Сейчас я немного задумался 😅 Попробуй написать ещё раз или сразу нажми сюда: $pickTourUrl"
       }
 
